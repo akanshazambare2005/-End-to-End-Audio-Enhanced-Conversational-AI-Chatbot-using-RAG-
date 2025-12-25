@@ -1,0 +1,28 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Streamlit files
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temp folders & files
+temp/
+docs/word_timestamps.json  # Optional: if you want to keep docs folder but ignore timestamps
+*.mp3
+
+# Environment variables
+.env
