@@ -1,7 +1,5 @@
-streamlit
-requests
-yt-dlp
-langchain
-langchain-embeddings
-python-dotenv
-faiss-cpu
+streamlit==1.30.0
+requests==2.31.0
+yt-dlp==2025.12.1
+langchain==0.1.0
+faiss-cpu==1.7.4
