@@ -27,3 +27,4 @@ docs/word_timestamps.json  # Optional: if you want to keep docs folder but ignor
 # Environment variables
 .env
 ".env" 
+".env" 
