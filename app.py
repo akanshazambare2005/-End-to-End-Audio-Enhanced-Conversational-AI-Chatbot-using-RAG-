@@ -6,7 +6,7 @@ import logging
 from pathlib import Path
 
 # -------- Third-party Utilities --------
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import requests
 import yt_dlp
 import streamlit as st
@@ -25,8 +25,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # -------- Load environment variables --------
-load_dotenv()
-api_token = os.getenv('ASSEMBLY_AI_KEY')
+api_token = st.secrets["ASSEMBLY_AI_KEY"]
 
 base_url = "https://api.assemblyai.com/v2"
 headers = {"authorization": api_token, "content-type": "application/json"}

@@ -1,0 +1,7 @@
+streamlit
+requests
+yt-dlp
+langchain
+langchain-embeddings
+python-dotenv
+faiss-cpu
