@@ -123,7 +123,7 @@ def setup_qa_chain():
         #chat = ChatOllama(model="mistral", temperature=0)
         chat = ChatGroq(
             groq_api_key=st.secrets["GROQ_API_KEY"],
-            model_name="llama3-8b-8192",
+            model_name="llama-3.1-8b-instant",
             temperature=0
         )
         qa_chain = RetrievalQA.from_chain_type(
@@ -158,7 +158,7 @@ def get_llm():
     #return ChatOllama(model="mistral", temperature=0.7)
     return ChatGroq(
         groq_api_key=st.secrets["GROQ_API_KEY"],
-        model_name="llama3-8b-8192",
+        model_name="llama-3.1-8b-instant",
         temperature=0.7
     )
 
