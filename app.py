@@ -36,29 +36,36 @@ upload_headers = {"authorization": api_token}
 def save_audio(url):
     try:
         os.makedirs('temp', exist_ok=True)
+
         ydl_opts = {
-            'format': 'bestaudio/best',
-            'noplaylist': True,
+            'format': 'bestaudio[ext=m4a]/bestaudio/best',
             'quiet': True,
+            'no_warnings': True,
+            'noplaylist': True,
             'extractaudio': True,
             'audioformat': 'mp3',
             'outtmpl': 'temp/%(title)s.%(ext)s',
-            'cookiefile': None,
             'http_headers': {
-                'User-Agent': 'Mozilla/5.0'
+                'User-Agent': (
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                    'AppleWebKit/537.36 (KHTML, like Gecko) '
+                    'Chrome/122.0.0.0 Safari/537.36'
+                )
             }
         }
+
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
-            audio_filename = Path(ydl.prepare_filename(info)).with_suffix('.mp3')
-        logger.info(f"Successfully downloaded audio: {audio_filename}")
+            downloaded_file = ydl.prepare_filename(info)
+
+            audio_filename = Path(downloaded_file).with_suffix('.mp3')
+
         return Path(audio_filename).name
+
     except Exception as e:
         logger.error(f"Error downloading audio: {str(e)}")
         st.error(f"Error downloading audio: {str(e)}")
         return None
-
-
 # -------- AssemblyAI Transcription --------
 def upload_audio_chunked(audio_path):
     upload_url = base_url + "/upload"
