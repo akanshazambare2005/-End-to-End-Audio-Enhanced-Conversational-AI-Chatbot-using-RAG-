@@ -12,14 +12,14 @@ import yt_dlp
 import streamlit as st
 
 # -------- LangChain Core --------
-from langchain_classic.chains import RetrievalQA, LLMChain
-from langchain_core.prompts import PromptTemplate
+from langchain.chains import RetrievalQA, LLMChain
+from langchain.prompts import PromptTemplate
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.chat_models import ChatOllama
-
+#from langchain_community.chat_models import ChatOllama
+from langchain_groq import ChatGroq
 # -------- Logging --------
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -120,7 +120,12 @@ def setup_qa_chain():
         vectorstore = FAISS.from_documents(texts, embeddings)
         retriever = vectorstore.as_retriever()
 
-        chat = ChatOllama(model="mistral", temperature=0)
+        #chat = ChatOllama(model="mistral", temperature=0)
+        chat = ChatGroq(
+            groq_api_key=st.secrets["GROQ_API_KEY"],
+            model_name="llama3-8b-8192",
+            temperature=0
+        )
         qa_chain = RetrievalQA.from_chain_type(
             llm=chat,
             chain_type="stuff",
@@ -150,7 +155,12 @@ def find_relevant_timestamps(answer, word_timestamps):
 # -------- Summary Generator --------
 @st.cache_resource
 def get_llm():
-    return ChatOllama(model="mistral", temperature=0.7)
+    #return ChatOllama(model="mistral", temperature=0.7)
+    return ChatGroq(
+        groq_api_key=st.secrets["GROQ_API_KEY"],
+        model_name="llama3-8b-8192",
+        temperature=0.7
+    )
 
 
 def generate_summary(transcription):

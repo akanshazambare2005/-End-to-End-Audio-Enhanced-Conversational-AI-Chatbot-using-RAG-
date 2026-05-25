@@ -12,8 +12,8 @@ import yt_dlp
 import streamlit as st
 
 # -------- LangChain Core --------
-from langchain_classic.chains import RetrievalQA, LLMChain
-from langchain_core.prompts import PromptTemplate
+from langchain.chains import RetrievalQA, LLMChain
+from langchain.prompts import PromptTemplate
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import CharacterTextSplitter
