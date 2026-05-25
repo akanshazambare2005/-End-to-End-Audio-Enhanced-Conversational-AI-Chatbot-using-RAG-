@@ -8,7 +8,7 @@ from pathlib import Path
 # -------- Third-party Utilities --------
 # from dotenv import load_dotenv
 import requests
-import yt_dlp
+from pytubefix import YouTube
 import streamlit as st
 
 # -------- LangChain Core --------
@@ -35,32 +35,20 @@ upload_headers = {"authorization": api_token}
 # -------- Audio Download --------
 def save_audio(url):
     try:
-        os.makedirs('temp', exist_ok=True)
+        os.makedirs("temp", exist_ok=True)
 
-        ydl_opts = {
-            'format': 'bestaudio[ext=m4a]/bestaudio/best',
-            'quiet': True,
-            'no_warnings': True,
-            'noplaylist': True,
-            'extractaudio': True,
-            'audioformat': 'mp3',
-            'outtmpl': 'temp/%(title)s.%(ext)s',
-            'http_headers': {
-                'User-Agent': (
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                    'AppleWebKit/537.36 (KHTML, like Gecko) '
-                    'Chrome/122.0.0.0 Safari/537.36'
-                )
-            }
-        }
+        yt = YouTube(url)
 
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=True)
-            downloaded_file = ydl.prepare_filename(info)
+        audio_stream = yt.streams.filter(only_audio=True).first()
 
-            audio_filename = Path(downloaded_file).with_suffix('.mp3')
+        downloaded_file = audio_stream.download(output_path="temp")
 
-        return Path(audio_filename).name
+        base, ext = os.path.splitext(downloaded_file)
+        new_file = base + ".mp3"
+
+        os.rename(downloaded_file, new_file)
+
+        return os.path.basename(new_file)
 
     except Exception as e:
         logger.error(f"Error downloading audio: {str(e)}")
