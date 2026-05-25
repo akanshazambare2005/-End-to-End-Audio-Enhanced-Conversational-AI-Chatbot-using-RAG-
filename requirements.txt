@@ -1,6 +1,6 @@
 streamlit==1.30.0
 requests==2.31.0
-yt-dlp
+yt-dlp>=2024.8.6
 langchain==0.1.20
 langchain-core==0.1.52
 langchain-community==0.0.38

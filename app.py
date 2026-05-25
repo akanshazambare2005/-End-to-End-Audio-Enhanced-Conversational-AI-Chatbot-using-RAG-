@@ -38,9 +38,15 @@ def save_audio(url):
         os.makedirs('temp', exist_ok=True)
         ydl_opts = {
             'format': 'bestaudio/best',
-            'download_sections': '*0-600',
-            'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '64'}],
+            'noplaylist': True,
+            'quiet': True,
+            'extractaudio': True,
+            'audioformat': 'mp3',
             'outtmpl': 'temp/%(title)s.%(ext)s',
+            'cookiefile': None,
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0'
+            }
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
